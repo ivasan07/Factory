@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_SquareWave" Id="{4c5c8db8-4e7c-4727-be80-3cc5def19a59}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SquareWave
+VAR_INPUT
+	PulseLength	: DINT;		// Pulse length in [ms]
+END_VAR
+VAR_OUTPUT
+	Value		: BOOL;         // Generated pulse
+END_VAR
+VAR
+	Impulse   	: TON;
+	Edge		: BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Impulse(IN := NOT Impulse.Q, PT := DINT_TO_TIME(PulseLength));
+
+IF Impulse.Q THEN
+	Impulse(IN := FALSE);
+	Edge := TRUE;
+END_IF
+
+IF Edge AND Value THEN
+	Value := FALSE;
+	Edge := FALSE;
+ELSIF Edge AND NOT Value THEN
+	Value := TRUE;
+	Edge := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_SquareWave">
+      <LineId Id="20" Count="12" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
