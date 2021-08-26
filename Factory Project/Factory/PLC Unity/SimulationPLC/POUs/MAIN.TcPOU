@@ -3,17 +3,24 @@
   <POU Name="MAIN" Id="{167e6138-b7c2-4d34-bba2-2fec0da3103c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-iPulseLength : DINT;
-fbWave       : FB_SquareWave;
+	boxSpeed : REAL;
+	spawnRate: REAL;
+	runBelt: BOOL;
+	autoDirection: BOOL;
+	direction: DINT; //0 = left , else = right
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[iPulseLength := DataExchange.iVar1;
-fbWave(PulseLength := iPulseLength );	// instance of FB_SquareWave
-DataExchange.bVar1 := fbWave.Value;]]></ST>
+      <ST><![CDATA[boxSpeed := DataExchange.boxSpeed;
+spawnRate := DataExchange.spawnRate;
+runBelt := DataExchange.runBelt;
+autoDirection := DataExchange.autoDirection;
+direction := DataExchange.direction;]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="15" Count="1" />
       <LineId Id="2" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="29" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 5601669861585976438}
   - component: {fileID: 6125440196745207424}
   - component: {fileID: 5344724046405833917}
-  - component: {fileID: 697897318711286551}
-  m_Layer: 7
+  m_Layer: 4
   m_Name: object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,17 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destiny: {fileID: 0}
   speed: 0
---- !u!114 &697897318711286551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4010529730376221520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b8170433fa2ce44a10f4c3aeebd0e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destiny: {fileID: 0}
-  speed: 0
+  _tcHandler: {fileID: 0}

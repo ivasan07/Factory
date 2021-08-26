@@ -6,12 +6,14 @@ using TwinCAT.Ads;
 public class TwinCAT_Handler : MonoBehaviour
 {
     private AdsClient _tcClient = null;
-    
+
+    public static TwinCAT_Handler instance;
 
     void Awake()
     {
+        instance = this;
         _tcClient = new AdsClient();
-        _tcClient.Connect("192.168.137.68.1.1", 851);
+        _tcClient.Connect(AmsNetId.Local, 851);
         if (_tcClient.IsConnected)
         {
             Debug.Log("Twin CAT ADS port connected");
@@ -24,7 +26,7 @@ public class TwinCAT_Handler : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public bool ReadBool(string pou, string variableName)
@@ -58,6 +60,23 @@ public class TwinCAT_Handler : MonoBehaviour
         }
         return value;
     }
+
+    public float ReadReal(string pou, string variableName)
+    {
+        float value = 0;
+        try
+        {
+            var hVar = _tcClient.CreateVariableHandle(pou + "." + variableName);
+            value = (float)_tcClient.ReadAny(hVar, typeof(float));
+            _tcClient.DeleteVariableHandle(hVar);
+        }
+        catch
+        {
+            Debug.LogError("TC Error - reading REAL failed");
+        }
+        return value;
+    }
+
 
     public bool WriteValue(string pou, string variableName, int value)
     {

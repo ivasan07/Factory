@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MultiDirectionChanger : MonoBehaviour
 {
+    TwinCAT_Handler _tcHandler;
+
+
     [SerializeField]
     GameObject newDestiny1;
     [SerializeField]
@@ -11,28 +14,44 @@ public class MultiDirectionChanger : MonoBehaviour
 
     int option = 1;
 
-    [SerializeField]
-    float speed1;
-    [SerializeField]
-    float speed2;
+    bool auto = true;
+    int dir = 0;
 
+    private void Start()
+    {
+        _tcHandler = TwinCAT_Handler.instance;
+    }
+
+    private void Update()
+    {
+
+        auto = _tcHandler.ReadBool("MAIN", "autoDirection");
+        dir = _tcHandler.ReadDInt("MAIN", "direction");
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         ItemMovement movement = other.GetComponent<ItemMovement>();
         if (movement != null)
         {
-            if (option == 1)
+            if (auto)
             {
-                option = 2;
-                movement.speed = speed1;
-                movement.destiny = newDestiny1;
+                if (option == 1)
+                {
+                    option = 2;
+                    movement.destiny = newDestiny1;
+                }
+                else
+                {
+                    option = 1;
+                    movement.destiny = newDestiny2;
+                }
             }
             else
             {
-                option = 1;
-                movement.speed = speed2;
-                movement.destiny = newDestiny2;
+                if (dir == 0) movement.destiny = newDestiny1;
+                else movement.destiny = newDestiny2;
             }
         }
     }
