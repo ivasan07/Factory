@@ -1,27 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TwinCAT.Ads;
+using UnityEngine.SceneManagement;
 
 public class TwinCAT_Handler : MonoBehaviour
 {
     private AdsClient _tcClient = null;
 
+    [SerializeField]
+    Text id;
+    [SerializeField]
+    GameObject wrongMsg;
+
     public static TwinCAT_Handler instance;
 
-    void Awake()
+    public void Connect()
     {
         instance = this;
-        _tcClient = new AdsClient();
-        _tcClient.Connect(AmsNetId.Local, 851);
+        if (_tcClient == null)
+            _tcClient = new AdsClient();
+        try
+        {
+            _tcClient.Connect(id.text, 851);
+        }
+        catch
+        {
+            wrongMsg.SetActive(true);
+        }
+
         if (_tcClient.IsConnected)
         {
             Debug.Log("Twin CAT ADS port connected");
+            SceneManager.LoadScene("Factory");
         }
         else
         {
             Debug.LogError("ADS Connection failed");
+            wrongMsg.SetActive(true);
         }
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
     }
 
     void Update()
