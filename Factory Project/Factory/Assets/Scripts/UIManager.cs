@@ -23,6 +23,24 @@ public class UIManager : MonoBehaviour
     int dir;
     bool autoDir;
 
+    public Text cameraConfigText;
+    int cameraConfig;
+
+    public Text waterTankText;
+    bool fill;
+    bool unfill;
+
+    [SerializeField]
+    Transform waterTankTr;
+    [SerializeField]
+    float waterTankMaxCap;
+    [SerializeField]
+    Text capacityText;
+    [SerializeField]
+    Text capacity;
+    [SerializeField]
+    GameObject background2;
+
     private void Start()
     {
         _tcHandler = TwinCAT_Handler.instance;
@@ -51,6 +69,38 @@ public class UIManager : MonoBehaviour
         {
             if (dir == 0) dirText.text = "direction: left";
             else dirText.text = "direction: right";
+        }
+
+        cameraConfig = _tcHandler.ReadDInt("MAIN", "cameraConfig");
+        if (cameraConfig < 1 || cameraConfig > 6) cameraConfig = 1;
+        cameraConfigText.text = "camera config: " + cameraConfig;
+
+        fill = _tcHandler.ReadBool("MAIN", "fill");
+        unfill = _tcHandler.ReadBool("MAIN", "unfill");
+
+        if (fill == unfill) waterTankText.text = "watertank: off";
+        else
+        {
+            if (fill) waterTankText.text = "watertank: filling";
+            else waterTankText.text = "watertank: unfilling";
+        }
+
+        if (cameraConfig != 6)
+        {
+            background2.SetActive(false);
+            capacity.enabled = false;
+            capacityText.enabled = false;
+        }
+        else
+        {
+            background2.SetActive(true);
+            capacity.enabled = true;
+            capacityText.enabled = true;
+
+            //maxscale - 100
+            //scale - x
+            int percentage = (int)(waterTankTr.localScale.y * 100 / waterTankMaxCap);
+            capacityText.text = percentage + "%";
         }
     }
 }

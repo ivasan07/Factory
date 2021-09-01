@@ -7,7 +7,8 @@ public class DeleteItems : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         ItemMovement movement = other.GetComponent<ItemMovement>();
-        if (movement != null)
+        Platform plat = other.GetComponent<Platform>();
+        if (movement != null || plat != null)
         {
             Destroy(other.gameObject);
         }

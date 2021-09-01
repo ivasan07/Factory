@@ -100,6 +100,21 @@ public class TwinCAT_Handler : MonoBehaviour
         return value;
     }
 
+    public bool WriteBool(string pou, string variableName, bool value)
+    {
+        try
+        {
+            var hVar = _tcClient.CreateVariableHandle(pou + "." + variableName);
+            _tcClient.WriteAny(hVar, value);
+            _tcClient.DeleteVariableHandle(hVar);
+            return true;
+        }
+        catch (AdsErrorException exc)
+        {
+            Debug.LogError("TC Write Error " + exc.Message);
+        }
+        return false;
+    }
 
     public bool WriteValue(string pou, string variableName, int value)
     {

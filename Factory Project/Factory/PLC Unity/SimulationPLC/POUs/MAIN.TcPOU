@@ -3,24 +3,22 @@
   <POU Name="MAIN" Id="{167e6138-b7c2-4d34-bba2-2fec0da3103c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	boxSpeed : REAL;
-	spawnRate: REAL;
-	runBelt: BOOL;
-	autoDirection: BOOL;
-	direction: DINT; //0 = left , else = right
+	spawnRate: REAL := 2;
+	boxSpeed: REAL := 3;
+	runBelt: BOOL := TRUE;
+	autoDirection: BOOL := TRUE;
+	direction: DINT := 0; //0 = left , else = right
+	cameraConfig: DINT := 1; //there are 6 camera configurations (from 1 to 6). Other numbers will just run config 1
+	
+	//To use the water tank. If both fill and unfill have the same value the water will stay still;
+	fill: BOOL :=  FALSE; //
+	unfill: BOOL := FALSE;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[boxSpeed := DataExchange.boxSpeed;
-spawnRate := DataExchange.spawnRate;
-runBelt := DataExchange.runBelt;
-autoDirection := DataExchange.autoDirection;
-direction := DataExchange.direction;]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="2" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="29" Count="1" />
+      <LineId Id="30" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
